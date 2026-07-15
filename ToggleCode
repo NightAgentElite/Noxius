@@ -24,13 +24,13 @@ ImageButton.Parent = Rayfield
 
 ImageButton.Active = true
 ImageButton.Draggable = true
-ImageButton.AnchorPoint = Vector2.new(0, 0)
+ImageButton.AnchorPoint = Vector2.new(0.5, 0.5)
 ImageButton.AutoButtonColor = false
 ImageButton.BackgroundColor3 = Color3.fromRGB(255,255,255)
 ImageButton.BackgroundTransparency = 0
 ImageButton.BorderColor3 = Color3.fromRGB(27,42,53)
 ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.5, -10, 0, 56)
+ImageButton.Position = UDim2.new(0.5, 0, 0, 119)
 ImageButton.Size = UDim2.new(0,64,0,64)
 ImageButton.SizeConstraint = Enum.SizeConstraint.RelativeXY
 ImageButton.ZIndex = 100000
@@ -137,3 +137,86 @@ StrokeGradient.Color = ColorSequence.new({
     ColorSequenceKeypoint.new(1, Color3.fromRGB(22,22,22))
 })
 StrokeGradient.Parent = OutlineStroke
+
+-- Hover Sound
+local HoverSound = Instance.new("Sound")
+HoverSound.Name = "Hover"
+HoverSound.Parent = ImageButton
+
+-- Data
+HoverSound.EmitterSize = 10
+HoverSound.MaxDistance = 10000
+HoverSound.MinDistance = 10
+
+-- Behavior
+HoverSound.Archivable = true
+HoverSound.PlayOnRemove = false
+
+-- Asset
+HoverSound.SoundId = "rbxassetid://147982968"
+
+-- Playback
+HoverSound.Looped = false
+HoverSound.PlaybackRegionsEnabled = false
+HoverSound.PlaybackSpeed = 2
+HoverSound.TimePosition = 0.1
+HoverSound.Volume = 0.150
+
+-- Regions
+HoverSound.LoopRegion = NumberRange.new(0, 60000)
+HoverSound.PlaybackRegion = NumberRange.new(0, 60000)
+
+-- Emitter
+HoverSound.RollOffMaxDistance = 10000
+HoverSound.RollOffMinDistance = 10
+HoverSound.RollOffMode = Enum.RollOffMode.InverseTapered
+
+-- Routing
+HoverSound.SoundGroup = nil
+
+
+-- Click Sound
+local ClickSound = Instance.new("Sound")
+ClickSound.Name = "Click"
+ClickSound.Parent = ImageButton
+
+-- Data
+ClickSound.EmitterSize = 10
+ClickSound.MaxDistance = 10000
+ClickSound.MinDistance = 10
+
+-- Behavior
+ClickSound.Archivable = true
+ClickSound.PlayOnRemove = false
+
+-- Asset
+ClickSound.SoundId = "rbxassetid://552900451"
+
+-- Playback
+ClickSound.Looped = false
+ClickSound.PlaybackRegionsEnabled = false
+ClickSound.PlaybackSpeed = 1
+ClickSound.TimePosition = 0
+ClickSound.Volume = 0.5
+
+-- Regions
+ClickSound.LoopRegion = NumberRange.new(0, 60000)
+ClickSound.PlaybackRegion = NumberRange.new(0, 60000)
+
+-- Emitter
+ClickSound.RollOffMaxDistance = 10000
+ClickSound.RollOffMinDistance = 10
+ClickSound.RollOffMode = Enum.RollOffMode.InverseTapered
+
+-- Routing
+ClickSound.SoundGroup = nil
+
+
+-- Events
+ImageButton.MouseEnter:Connect(function()
+    HoverSound:Play()
+end)
+
+ImageButton.MouseButton1Click:Connect(function()
+    ClickSound:Play()
+end)
