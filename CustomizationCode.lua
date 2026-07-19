@@ -509,17 +509,11 @@ local function ConnectButton(Button)
 
     Button:SetAttribute("NoxiusConnected", true)
 
-    print("Connected:", Button:GetFullName(), Button.ClassName)
-
     Button.MouseEnter:Connect(function()
-        HoverSound:Stop()
-        HoverSound.TimePosition = 0
         HoverSound:Play()
     end)
 
     Button.Activated:Connect(function()
-        ClickSound:Stop()
-        ClickSound.TimePosition = 0
         ClickSound:Play()
     end)
 
@@ -527,21 +521,15 @@ end
 
 
 for _, Object in ipairs(Rayfield:GetDescendants()) do
-
     if Object:IsA("GuiButton") then
         ConnectButton(Object)
     end
-
 end
 
 
 Rayfield.DescendantAdded:Connect(function(Object)
-
     if Object:IsA("GuiButton") then
-
         task.wait()
         ConnectButton(Object)
-
     end
-
 end)
