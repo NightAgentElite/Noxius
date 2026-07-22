@@ -1461,6 +1461,7 @@ UIListLayout.Parent = Billboard
 
     local Text = Instance.new("TextLabel")
     Text.Parent = Billboard
+	Text.Name = "Name"
     Text.Size = UDim2.fromScale(1, 1)
     Text.BackgroundTransparency = 1
     Text.TextScaled = false
@@ -1478,7 +1479,7 @@ StrokeName.Parent = Text
 
 local UsernameText = Text:Clone()
 UsernameText.Parent = Billboard
-UsernameText.Name = "UsernameText"
+UsernameText.Name = "Username"
 UsernameText.LayoutOrder = 1
 
 if Player then
@@ -1494,6 +1495,7 @@ StrokeUserName.Parent = UsernameText
 
 local SanityText = Instance.new("TextLabel")
 SanityText.Parent = Billboard
+SanityText.Name = "Sanity"
 SanityText.Size = UDim2.fromScale(1, 1)
 SanityText.BackgroundTransparency = 1
 SanityText.TextScaled = false
@@ -1632,61 +1634,98 @@ Visuals:CreateLabel("Toggles ESP for Players.")
 
 
 local MimicESPEnabled = false
-local MimicHighlights = {}
+local MimicObjects = {}
 
 local MimicFolder = workspace:WaitForChild("NPCs")
 
-local function CheckMimic(npc)
-    if npc:GetAttribute("Skinwalker") or npc.Name == "TallMonster" then
-        
-        if not MimicHighlights[npc] then
-            local Highlight = Instance.new("Highlight")
-            Highlight.Name = "MimicESP"
-            Highlight.FillColor = Color3.fromRGB(255, 0, 0)
-            Highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-            Highlight.Adornee = npc
-            Highlight.Parent = npc
+local function AddMimicESP(npc)
+	if MimicObjects[npc] then
+		return
+	end
 
-            MimicHighlights[npc] = Highlight
-        end
-        
-    end
+	if not (npc:GetAttribute("Skinwalker") or npc.Name == "TallMonster") then
+		return
+	end
+
+	local Root = npc:FindFirstChild("HumanoidRootPart")
+	if not Root then
+		return
+	end
+
+	local Highlight = Instance.new("Highlight")
+	Highlight.Name = "MimicESP"
+	Highlight.FillColor = Color3.fromRGB(255, 0, 0)
+	Highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+	Highlight.FillTransparency = 0.5
+	Highlight.OutlineTransparency = 0
+	Highlight.Adornee = npc
+	Highlight.Parent = npc
+
+	local Billboard = Instance.new("BillboardGui")
+	Billboard.Name = "BillboardGui"
+	Billboard.Adornee = Root
+	Billboard.Parent = Root
+	Billboard.Size = UDim2.fromOffset(150, 40)
+	Billboard.StudsOffset = Vector3.new(0, 0, 0)
+	Billboard.AlwaysOnTop = true
+	Billboard.MaxDistance = 250
+
+	local Text = Instance.new("TextLabel")
+	Text.Parent = Billboard
+	Text.Name = "Name"
+	Text.Size = UDim2.fromScale(1, 1)
+	Text.BackgroundTransparency = 1
+	Text.Text = npc.Name
+	Text.TextSize = 18
+	Text.Font = Enum.Font.FredokaOne
+	Text.TextColor3 = Color3.fromRGB(255, 0, 0)
+	Text.TextStrokeTransparency = 0
+	Text.TextScaled = false
+
+	local Stroke = Instance.new("UIStroke")
+	Stroke.Color = Color3.fromRGB(255, 255, 255)
+	Stroke.Thickness = 1
+	Stroke.Parent = Text
+
+	MimicObjects[npc] = {
+		Highlight = Highlight,
+		Billboard = Billboard
+	}
+end
+
+local function RemoveMimicESP()
+	for _, objects in pairs(MimicObjects) do
+		if objects.Highlight then
+			objects.Highlight:Destroy()
+		end
+		if objects.Billboard then
+			objects.Billboard:Destroy()
+		end
+	end
+
+	table.clear(MimicObjects)
 end
 
 local function ScanMimics()
-    for _, npc in ipairs(MimicFolder:GetChildren()) do
-        CheckMimic(npc)
-    end
+	for _, npc in ipairs(MimicFolder:GetChildren()) do
+		AddMimicESP(npc)
+	end
 end
 
 Visuals:CreateToggle({
-    Name = "Mimic ESP",
-    CurrentValue = false,
+	Name = "Mimic ESP",
+	CurrentValue = false,
 
-    Callback = function(Value)
-        MimicESPEnabled = Value
+	Callback = function(Value)
+		MimicESPEnabled = Value
 
-        if Value then
-            ScanMimics()
-        else
-            for _, highlight in pairs(MimicHighlights) do
-                if highlight then
-                    highlight:Destroy()
-                end
-            end
-
-            table.clear(MimicHighlights)
-        end
-    end
+		if Value then
+			ScanMimics()
+		else
+			RemoveMimicESP()
+		end
+	end
 })
-
-MimicFolder.ChildAdded:Connect(function(npc)
-    task.wait(0.5)
-
-    if MimicESPEnabled then
-        CheckMimic(npc)
-    end
-end)
 
 Visuals:CreateLabel("Toggles ESP for Mimics.")
 
