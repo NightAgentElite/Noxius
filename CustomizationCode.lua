@@ -431,9 +431,9 @@ StrokeGradient.Parent = OutlineStroke
 
 -- Hover Sound
 local HoverSound = Instance.new("Sound")
-HoverSound.Name = "bubble"
+HoverSound.Name = "click2"
 HoverSound.Parent = Rayfield
-HoverSound.Pitch = 0.8
+HoverSound.Pitch = 1
 
 -- Data
 HoverSound.EmitterSize = 10
@@ -445,23 +445,23 @@ HoverSound.Archivable = true
 HoverSound.PlayOnRemove = false
 
 -- Asset
-HoverSound.SoundId = "rbxassetid://103029640262152"
+HoverSound.SoundId = "rbxassetid://6895079853"
 
 -- Playback
 HoverSound.Looped = false
 HoverSound.PlaybackRegionsEnabled = false
-HoverSound.PlaybackSpeed = 0.8
+HoverSound.PlaybackSpeed = 1
 HoverSound.TimePosition = 0.1
-HoverSound.Volume = 1
+HoverSound.Volume = 0.5
 
 -- Regions
 HoverSound.LoopRegion = NumberRange.new(0, 60000)
-HoverSound.PlaybackRegion = NumberRange.new(0, 0.5)
+HoverSound.PlaybackRegion = NumberRange.new(0, 60000)
 
 -- Emitter
 HoverSound.RollOffMaxDistance = 10000
 HoverSound.RollOffMinDistance = 10
-HoverSound.RollOffMode = Enum.RollOffMode.InverseTapered
+HoverSound.RollOffMode = Enum.RollOffMode.Inverse
 
 -- Routing
 HoverSound.SoundGroup = nil
