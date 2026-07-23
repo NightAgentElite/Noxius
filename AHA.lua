@@ -2106,22 +2106,22 @@ local function AddCameraESP(camera)
 
 
     local function UpdateStatus()
+		
+if mainLook:FindFirstChild("PP") then
 
-        if mainLook:FindFirstChild("PP") then
+    Status.Text = "Broken"
+    Status.TextColor3 = BrokenColor
+    Name.TextColor3 = BrokenColor
+    Highlight.FillColor = BrokenColor
 
-            Status.Text = "Broken"
-            Status.TextColor3 = BrokenColor
-            Highlight.FillColor = BrokenColor
+else
 
-        else
+    Status.Text = "Not Broken"
+    Status.TextColor3 = NotBrokenColor
+    Name.TextColor3 = NotBrokenColor
+    Highlight.FillColor = NotBrokenColor
 
-            Status.Text = "Not Broken"
-            Status.TextColor3 = NotBrokenColor
-            Highlight.FillColor = NotBrokenColor
-
-        end
-
-    end
+		end
 
 
     UpdateStatus()
