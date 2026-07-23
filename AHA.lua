@@ -1706,7 +1706,7 @@ ToRoomText.BackgroundTransparency = 1
 ToRoomText.TextScaled = false
 ToRoomText.TextSize = 18
 ToRoomText.Font = Enum.Font.FredokaOne
-ToRoomText.TextColor3 = Color3.fromRGB(0, 0, 255)
+ToRoomText.TextColor3 = Color3.fromRGB(255, 0, 0)
 ToRoomText.TextStrokeTransparency = 0
 ToRoomText.LayoutOrder = 2
 
@@ -1716,16 +1716,18 @@ StrokeToRoom.Thickness = 1
 StrokeToRoom.Parent = ToRoomText
 
 local function UpdateToRoom()
-	if Player then
-		local DesignatedRoom = Player:GetAttribute("DesignatedRoom")
+    local room = npc:GetAttribute("DesignatedRoom")
 
-		if DesignatedRoom and DesignatedRoom ~= "" then
-			ToRoomText.Text = "Going to: " .. tostring(DesignatedRoom)
-		else
-			ToRoomText.Text = "Going to: N/A"
-		end
-	end
-	end
+    if room then
+        ToRoomText.Text = "Going to: " .. tostring(room)
+    else
+        ToRoomText.Text = "Going to: N/A"
+    end
+end
+
+UpdateToRoom()
+
+npc:GetAttributeChangedSignal("DesignatedRoom"):Connect(UpdateToRoom)
 
 	MimicObjects[npc] = {
 		Highlight = Highlight,
